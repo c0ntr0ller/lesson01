@@ -1,0 +1,58 @@
+group 'C2Lesson01'
+version '1.0'
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.github.jacobono:gradle-jaxb-plugin:1.3.6'
+    }
+}
+
+apply plugin: 'com.github.jacobono.jaxb'
+apply plugin: 'java'
+apply plugin: 'application'
+
+clean{
+    delete 'src/main/java/org/openstreetmap'
+}
+
+mainClassName = 'Lesson01'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+// https://mvnrepository.com/artifact/log4j/log4j
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+// https://mvnrepository.com/artifact/org.apache.commons/commons-compress
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.16.1'
+// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl
+    compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
+
+    jaxb 'com.sun.xml.bind:jaxb-xjc:2.2.7-b41'
+    jaxb 'com.sun.xml.bind:jaxb-impl:2.2.7-b41'
+    // https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core
+    compile 'com.sun.xml.bind:jaxb-core:2.3.0'
+
+    jaxb 'javax.xml.bind:jaxb-api:2.2.7'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    compile 'org.postgresql:postgresql:42.2.2'
+
+}
+
+jaxb {
+    xsdDir = "src/main/resources"
+//    xjc {
+//        destinationDir = "src/main/generated/"
+//        generatePakage = "osm"
+//    }
+}
