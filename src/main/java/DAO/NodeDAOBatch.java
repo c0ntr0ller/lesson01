@@ -1,6 +1,5 @@
 package DAO;
 
-import dbservices.DBService;
 import org.openstreetmap.osm._0.Node;
 import org.openstreetmap.osm._0.Tag;
 
@@ -17,13 +16,12 @@ public class NodeDAOBatch implements NodeDAO {
     private static final int BATCH_SIZE = 1000;
 
     @Override
-    public void insertNodeArray(List<Node> nodes) {
+    public void insertNodeArray(List<Node> nodes, Connection connection) {
         int count = 0;
-        try(Connection connection = DBService.instance().getConnection()) {
 
+        try(PreparedStatement statement = connection.prepareStatement(NODE_INSERT_QUERY);
+                PreparedStatement tag_statement = connection.prepareStatement(TAG_INSERT_QUERY)){
             connection.setAutoCommit(false);
-            PreparedStatement statement = connection.prepareStatement(NODE_INSERT_QUERY);
-            PreparedStatement tag_statement = connection.prepareStatement(TAG_INSERT_QUERY);
 
             for (Node node:nodes) {
                 statement.setLong(1, node.getId().longValue());
@@ -80,7 +78,7 @@ public class NodeDAOBatch implements NodeDAO {
                 tag_statement.executeBatch();
                 connection.commit();
             }
-        } catch (IllegalAccessException | SQLException | ClassNotFoundException | InstantiationException e) {
+        } catch ( SQLException e) {
             e.printStackTrace();
         }
     }

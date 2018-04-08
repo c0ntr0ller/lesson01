@@ -1,9 +1,11 @@
 import DAO.NodeDAO;
 import DAO.NodeDAOBatch;
+import dbservices.DBService;
 import org.openstreetmap.osm._0.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Connection;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +22,8 @@ public class MainClass {
 
         String fileName = args.length > 0?args[0]:null;
 
-        try(XMLFileReader xmlFileReader = new XMLFileReader(fileName)){
+        try(XMLFileReader xmlFileReader = new XMLFileReader(fileName);
+            Connection connection = DBService.instance().getConnection()){
 
             while (xmlFileReader.hasNext()) {
                 logger.info("Nodes read started...");
@@ -33,7 +36,7 @@ public class MainClass {
                 long start_time3 = System.nanoTime();
                 NodeDAO nodeDAO3 = new NodeDAOBatch();
 
-                nodeDAO3.insertNodeArray(nodeList);
+                nodeDAO3.insertNodeArray(nodeList, connection);
 
                 long end_time3 = System.nanoTime();
                 long diff3 = (end_time3 - start_time3);

@@ -1,6 +1,5 @@
 package DAO;
 
-import dbservices.DBService;
 import org.openstreetmap.osm._0.Node;
 
 import java.sql.Connection;
@@ -12,8 +11,8 @@ import java.util.List;
 public class NodeDAOPrepared implements NodeDAO {
     private static final String INSERT_QUERY = "insert into nodes_prepared(id, lat, lon, \"user\", uid, visible, \"version\", changeset, \"timestamp\")values(?,?,?,?,?,?,?,?,?)";
     @Override
-    public void insertNodeArray(List<Node> nodes) {
-        try(Connection connection = DBService.instance().getConnection()) {
+    public void insertNodeArray(List<Node> nodes, Connection connection) {
+         try{
             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY);
 
             for (Node node:nodes) {
@@ -43,7 +42,7 @@ public class NodeDAOPrepared implements NodeDAO {
 
                 statement.execute();
             }
-        } catch (IllegalAccessException | SQLException | ClassNotFoundException | InstantiationException e) {
+        } catch ( SQLException e) {
             e.printStackTrace();
         }
     }
