@@ -1,0 +1,8 @@
+2018-04-11 22:12:08 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-04-11 22:12:09 INFO  Version:37 - HHH000412: Hibernate Core {5.0.12.Final}
+2018-04-11 22:12:09 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2018-04-11 22:12:09 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2018-04-11 22:12:09 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-04-11 22:12:11 WARN  JdbcEnvironmentInitiator:132 - HHH000342: Could not obtain connection to query metadata : ВАЖНО: пользователь "Bek" не прошёл проверку подлинности (по паролю) (pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)

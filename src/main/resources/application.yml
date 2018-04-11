@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver: org.postgresql.Driver
+    url:  jdbc:postgresql://localhost/nodedb
+    user: postgres
+    password: 222
+
+file-name: data/RU-NVS.osm.bz2
