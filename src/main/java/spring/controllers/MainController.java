@@ -1,9 +1,11 @@
 package spring.controllers;
 
 import org.openstreetmap.osm._0.Node;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import spring.ConfigClass;
 import spring.entities.LocalNode;
 import spring.repository.NodeRepository;
 import xmlutils.XMLFileReader;
@@ -16,12 +18,16 @@ import java.util.stream.Collectors;
 public class MainController {
 //    private static Logger logger = LoggerFactory.getLogger(SpringMain.class);
 
+    @Autowired
+    private ConfigClass configClass;
+
     @Bean
     public CommandLineRunner nodeProceed(NodeRepository nodeRepository) throws Exception {
         return (String... args) ->{
             // открываем файл с данными
             long totalCnt = 0;
-            final int arraySize = 10000;
+
+            final int arraySize = configClass.getReadCount();
             LocalDateTime startDateTime = LocalDateTime.now();
 
 //            logger.info("Start ..." + startDateTime.toString());
@@ -41,7 +47,9 @@ public class MainController {
                     long start_time3 = System.nanoTime();
 
                     // сохраняем их в БД
-                    nodeRepository.saveAll(localNodeList);
+                    for (LocalNode localNode : localNodeList) {
+                        nodeRepository.save(localNode);
+                    }
 
                     long end_time3 = System.nanoTime();
                     long diff3 = (end_time3 - start_time3);

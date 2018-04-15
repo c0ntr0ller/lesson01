@@ -16,6 +16,6 @@ public class NodeConverter implements AttributeConverter<Map<String, String>, St
 
     @Override
     public Map<String, String> convertToEntityAttribute(String dbData) {
-        return HStoreConverter.fromString(dbData);
+        return (dbData==null)?null:HStoreConverter.fromString(dbData);
     }
 }

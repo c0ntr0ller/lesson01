@@ -4,18 +4,20 @@ import org.openstreetmap.osm._0.Node;
 import org.openstreetmap.osm._0.Tag;
 import spring.NodeConverter;
 
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.xml.datatype.XMLGregorianCalendar;
+import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Entity
+@Table(name = "nodes")
 public class LocalNode {
     @Convert(converter = NodeConverter.class)
+    @Column(name = "tagstore")
     private Map<String, String> tagsMap;
+    @Id
     private BigInteger id;
     private Double lat;
     private Double lon;
@@ -24,7 +26,9 @@ public class LocalNode {
     private Boolean visible;
     private BigInteger version;
     private BigInteger changeset;
-    private XMLGregorianCalendar timestamp;
+    @Column(name = "timestamp", columnDefinition = "timestampt with time zone not null")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timestamp;
 
     public LocalNode(Node node){
         this.tagsMap = new HashMap<>();
@@ -39,10 +43,10 @@ public class LocalNode {
         this.visible = node.isVisible();
         this.version = node.getVersion();
         this.changeset = node.getChangeset();
-        this.timestamp = getTimestamp();
+        this.timestamp = new Date(node.getTimestamp().toGregorianCalendar().getTimeInMillis());
     }
 
-    public LocalNode(Object e) {
+    public LocalNode() {
     }
 
     public Map<String, String> getTagsMap() {
@@ -122,11 +126,11 @@ public class LocalNode {
         this.changeset = changeset;
     }
 
-    public XMLGregorianCalendar getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(XMLGregorianCalendar timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 }

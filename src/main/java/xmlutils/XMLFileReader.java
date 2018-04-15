@@ -3,7 +3,6 @@ package xmlutils;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.openstreetmap.osm._0.Node;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import spring.ConfigClass;
 
 import javax.xml.bind.JAXBContext;
@@ -17,7 +16,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class XMLFileReader implements AutoCloseable {
 
     @Autowired
@@ -28,7 +26,8 @@ public class XMLFileReader implements AutoCloseable {
     private Unmarshaller jaxbUnmarshaller;
 
     public XMLFileReader() throws IOException, XMLStreamException, JAXBException {
-        String inFileName = (configClass.getFileName() == null || configClass.getFileName().isEmpty()) ? "data/RU-NVS.osm.bz2" : configClass.getFileName();
+//        if(configClass.getFileName() == null || inFileName.isEmpty()) inFileName = "data/RU-NVS.osm.bz2";
+        String inFileName = configClass.getFileName();
         File inFile = new File(inFileName);
 
         if (!Files.exists(inFile.toPath())) {
