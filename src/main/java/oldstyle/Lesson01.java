@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Lesson01 {
-    private static Logger logger = LoggerFactory.getLogger(Lesson01.class);
+    private static final Logger logger = LoggerFactory.getLogger(Lesson01.class);
 
     public static void main(String[] args) throws IOException, XMLStreamException {
 

@@ -7,7 +7,7 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.Map;
 
-@Converter
+@Converter(autoApply = true)
 public class NodeConverter implements AttributeConverter<Map<String, String>, String> {
     @Override
     public String convertToDatabaseColumn(Map<String, String> attribute) {

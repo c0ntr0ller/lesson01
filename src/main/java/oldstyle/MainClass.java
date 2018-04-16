@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class MainClass {
-    private static Logger logger = LoggerFactory.getLogger(MainClass.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainClass.class);
 
     public static void main(String[] args) throws Exception {
         long totalCnt = 0;

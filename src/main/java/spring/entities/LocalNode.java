@@ -1,40 +1,44 @@
 package spring.entities;
 
+import org.hibernate.annotations.Type;
 import org.openstreetmap.osm._0.Node;
 import org.openstreetmap.osm._0.Tag;
 import spring.NodeConverter;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table(name = "nodes")
 public class LocalNode {
-    @Convert(converter = NodeConverter.class)
-    @Column(name = "tagstore")
-    private Map<String, String> tagsMap;
+//    @Convert(converter = NodeConverter.class)
+//    @Column(name = "tagsmap")
+//    private Map<String, String> tagsMap = new HashMap<>();
     @Id
     private BigInteger id;
     private Double lat;
     private Double lon;
+    @Column(name = "\"user\"")
     private String user;
     private BigInteger uid;
     private Boolean visible;
     private BigInteger version;
     private BigInteger changeset;
-    @Column(name = "timestamp", columnDefinition = "timestampt with time zone not null")
+    @Column(name = "timestamp", columnDefinition = "timestamp WITHOUT time zone")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
+//    @OneToMany
+//    private List<LocalTag> tagList = new ArrayList<>();
+//
     public LocalNode(Node node){
-        this.tagsMap = new HashMap<>();
-        for (Tag oldTag : node.getTag()) {
-            tagsMap.put(oldTag.getK(),oldTag.getV());
-        }
+
+//        for (Tag xmlTag : node.getTag()) {
+////            tagsMap.put(xmlTag.getK(),xmlTag.getV());
+//            tagList.add(new LocalTag(xmlTag, node.getId()));
+//        }
+
         this.id = node.getId();
         this.lat = node.getLat();
         this.lon = node.getLon();
@@ -49,18 +53,14 @@ public class LocalNode {
     public LocalNode() {
     }
 
-    public Map<String, String> getTagsMap() {
-        return tagsMap;
-    }
+//    public Map<String, String> getTagsMap() {
+//        return tagsMap;
+//    }
 
-    public void setTagsMap(List<Tag> tagsMap) {
-        this.tagsMap.clear();
-        for (Tag oldTag : tagsMap) {
-            Tag newTag = new Tag();
-            newTag.setK(oldTag.getK());
-            newTag.setV(oldTag.getV());
-        }
-    }
+//
+//    public List<LocalTag> getTagList() {
+//        return tagList;
+//    }
 
     public BigInteger getId() {
         return id;
