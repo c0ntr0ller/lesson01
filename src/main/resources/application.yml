@@ -3,11 +3,13 @@ spring:
         properties:
             hibernate:
                 show_sql: true
+                jdbc:
+                    batch_size:1000
     datasource:
         driver: org.postgresql.Driver
-        url:  jdbc:postgresql://localhost/nodedb
+        url:  jdbc:postgresql://localhost/nodedb?useServerPrepStmts=false&rewriteBatchedStatements=true
         username: postgres
         password: 222
 
 xmlfilename: data/RU-NVS.osm.bz2
-readcount: 10
+readcount: 1000

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.EntityManagerFactoryAccessor;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Controller;
 import spring.ConfigClass;
 import spring.SpringMain;
@@ -14,6 +16,9 @@ import spring.entities.LocalNode;
 import spring.repository.NodeRepository;
 import xmlutils.XMLFileReader;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +33,7 @@ public class MainController {
     @Value("${xmlfilename}")
     private String inFileName;
     @Bean
+    @Transactional
     public CommandLineRunner nodeProceed(NodeRepository nodeRepository) {
         return (String... args) ->{
             // открываем файл с данными
@@ -38,6 +44,7 @@ public class MainController {
             logger.info("Start ..." + startDateTime.toString());
 
             try(XMLFileReader xmlFileReader = new XMLFileReader(inFileName)) {
+                long start_nanotime = System.nanoTime();
                 // бежим по файлу и создаем объекты
                 while (xmlFileReader.hasNext()) {
                     logger.info("Nodes read started...");
@@ -47,16 +54,22 @@ public class MainController {
                     List<LocalNode> localNodeList = nodeList.stream().map(LocalNode::new).collect(Collectors.toList());
 
                     logger.info("Nodes read complete. Nodes readed:" + nodeList.size());
-                    totalCnt = totalCnt + nodeList.size();
-
-                    long start_time3 = System.nanoTime();
+                    totalCnt = totalCnt + localNodeList.size();
 
                     // сохраняем их в БД
                     nodeRepository.save(localNodeList);
 
-                    long end_time3 = System.nanoTime();
-                    long diff3 = (end_time3 - start_time3);
-                    logger.info("diff in ms:" + diff3);
+                    localNodeList.clear();
+
+                    long end_nanotime = System.nanoTime();
+
+                    long duration = ((end_nanotime - start_nanotime)/1000000000);
+                    long diff = 0;
+                    if(duration > 0){
+                        diff = totalCnt / duration;
+                    }
+
+                    logger.info(String.format("Avg. speed: %d records/sec", diff));
                 }
             }
         };

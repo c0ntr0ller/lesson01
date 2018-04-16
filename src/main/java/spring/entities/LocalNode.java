@@ -10,7 +10,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 @Entity
-@Table(name = "nodes")
+@Table(name = "nodes", schema = "public")
 public class LocalNode {
 //    @Convert(converter = NodeConverter.class)
 //    @Column(name = "tagsmap")
@@ -29,16 +29,10 @@ public class LocalNode {
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
-//    @OneToMany
-//    private List<LocalTag> tagList = new ArrayList<>();
-//
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "node", cascade = CascadeType.ALL)
+    private List<LocalTag> tagList = new ArrayList<>();
+
     public LocalNode(Node node){
-
-//        for (Tag xmlTag : node.getTag()) {
-////            tagsMap.put(xmlTag.getK(),xmlTag.getV());
-//            tagList.add(new LocalTag(xmlTag, node.getId()));
-//        }
-
         this.id = node.getId();
         this.lat = node.getLat();
         this.lon = node.getLon();
@@ -48,6 +42,9 @@ public class LocalNode {
         this.version = node.getVersion();
         this.changeset = node.getChangeset();
         this.timestamp = new Date(node.getTimestamp().toGregorianCalendar().getTimeInMillis());
+        for (Tag xmlTag : node.getTag()) {
+            tagList.add(new LocalTag(xmlTag, this));
+        }
     }
 
     public LocalNode() {
@@ -58,9 +55,9 @@ public class LocalNode {
 //    }
 
 //
-//    public List<LocalTag> getTagList() {
-//        return tagList;
-//    }
+    public List<LocalTag> getTagList() {
+        return tagList;
+    }
 
     public BigInteger getId() {
         return id;
