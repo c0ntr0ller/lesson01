@@ -7,7 +7,7 @@ spring:
                     batch_size:1000
     datasource:
         driver: org.postgresql.Driver
-        url:  jdbc:postgresql://localhost/nodedb
+        url:  jdbc:postgresql://localhost/nodedb?stringtype=unspecified
         #?useServerPrepStmts=false&rewriteBatchedStatements=true
         username: postgres
         password: 222

@@ -1,17 +1,12 @@
 package spring.entities;
 
-import com.github.thealchemist.pg_hibernate.HstoreType;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import org.openstreetmap.osm._0.Node;
 import org.openstreetmap.osm._0.Tag;
 import org.springframework.data.domain.Persistable;
-import spring.NodeConverter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -51,11 +46,10 @@ public class LocalNode implements  Persistable{
     @Getter @Setter
     private List<LocalTag> tagList = new ArrayList<>();
 
-//    @Convert(converter = NodeConverter.class)
-//    @Type(type = "hstore")
-//    @Column(name = "tagsmap", columnDefinition = "hstore")
-//    @Getter @Setter
-//    private Map<String, String> tagsMap = new HashMap<>();
+    @Convert(converter = NodeConverter.class)
+    @Column(name = "tagsmap")
+    @Getter @Setter
+    private Map<String, String> tagsMap = new HashMap<>();
 
     public LocalNode(Node node){
         this.id = node.getId();
@@ -69,7 +63,7 @@ public class LocalNode implements  Persistable{
         this.timestamp = new Date(node.getTimestamp().toGregorianCalendar().getTimeInMillis());
         for (Tag xmlTag : node.getTag()) {
             tagList.add(new LocalTag(xmlTag, this));
-//            tagsMap.put(xmlTag.getK(), xmlTag.getV());
+            tagsMap.put(xmlTag.getK(), xmlTag.getV());
         }
     }
 

@@ -34,7 +34,7 @@ public class XmlImportController {
             long totalCnt = 0;
 
             logger.info("Clear data, wait ...");
-//            nodeRepository.deleteAllNodes();
+            localNodeRepository.deleteAllInBatch();
 
             LocalDateTime startDateTime = LocalDateTime.now();
             logger.info("Start ..." + startDateTime.toString());
