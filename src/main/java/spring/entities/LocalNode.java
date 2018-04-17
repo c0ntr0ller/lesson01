@@ -1,36 +1,61 @@
 package spring.entities;
 
+import com.github.thealchemist.pg_hibernate.HstoreType;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.openstreetmap.osm._0.Node;
 import org.openstreetmap.osm._0.Tag;
+import org.springframework.data.domain.Persistable;
 import spring.NodeConverter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
 
+//@NamedNativeQueries({
+//        @NamedNativeQuery(name = "LocalNode.deleteAllNodes",
+//                query = "DELETE FROM nodes")
+//})
 @Entity
 @Table(name = "nodes", schema = "public")
-public class LocalNode {
-//    @Convert(converter = NodeConverter.class)
-//    @Column(name = "tagsmap")
-//    private Map<String, String> tagsMap = new HashMap<>();
+//@TypeDef(name = "hstore", typeClass = HstoreType.class)
+public class LocalNode implements  Persistable{
     @Id
+    @Setter @Getter
     private BigInteger id;
+    @Getter @Setter
     private Double lat;
+    @Getter @Setter
     private Double lon;
     @Column(name = "\"user\"")
+    @Getter @Setter
     private String user;
+    @Getter @Setter
     private BigInteger uid;
+    @Getter @Setter
     private Boolean visible;
+    @Getter @Setter
     private BigInteger version;
+    @Getter @Setter
     private BigInteger changeset;
+
     @Column(name = "timestamp", columnDefinition = "timestamp WITHOUT time zone")
     @Temporal(TemporalType.TIMESTAMP)
+    @Getter @Setter
     private Date timestamp;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "node", cascade = CascadeType.ALL)
+    @Getter @Setter
     private List<LocalTag> tagList = new ArrayList<>();
+
+//    @Convert(converter = NodeConverter.class)
+//    @Type(type = "hstore")
+//    @Column(name = "tagsmap", columnDefinition = "hstore")
+//    @Getter @Setter
+//    private Map<String, String> tagsMap = new HashMap<>();
 
     public LocalNode(Node node){
         this.id = node.getId();
@@ -44,90 +69,20 @@ public class LocalNode {
         this.timestamp = new Date(node.getTimestamp().toGregorianCalendar().getTimeInMillis());
         for (Tag xmlTag : node.getTag()) {
             tagList.add(new LocalTag(xmlTag, this));
+//            tagsMap.put(xmlTag.getK(), xmlTag.getV());
         }
+    }
+
+    @Override
+    public boolean isNew() {
+        return true; //null == this.getId();
     }
 
     public LocalNode() {
     }
 
-//    public Map<String, String> getTagsMap() {
-//        return tagsMap;
-//    }
-
-//
-    public List<LocalTag> getTagList() {
-        return tagList;
-    }
-
+    @Override
     public BigInteger getId() {
         return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
-    public Double getLat() {
-        return lat;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public Double getLon() {
-        return lon;
-    }
-
-    public void setLon(Double lon) {
-        this.lon = lon;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public BigInteger getUid() {
-        return uid;
-    }
-
-    public void setUid(BigInteger uid) {
-        this.uid = uid;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
-    public BigInteger getVersion() {
-        return version;
-    }
-
-    public void setVersion(BigInteger version) {
-        this.version = version;
-    }
-
-    public BigInteger getChangeset() {
-        return changeset;
-    }
-
-    public void setChangeset(BigInteger changeset) {
-        this.changeset = changeset;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
     }
 }

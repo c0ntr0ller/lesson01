@@ -51,6 +51,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     compile 'org.postgresql:postgresql:42.2.2'
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
+// https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly "org.projectlombok:lombok:1.16.16"
+// https://mvnrepository.com/artifact/com.github.the-alchemist/hibernate-postresql
+    compile group: 'com.github.the-alchemist', name: 'hibernate-postresql', version: '1.0.5'
 
 }
 
