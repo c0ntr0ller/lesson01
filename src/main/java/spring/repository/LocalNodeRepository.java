@@ -5,6 +5,6 @@ import spring.entities.LocalNode;
 
 import java.math.BigInteger;
 
-public interface NodeRepository extends CrudRepository<LocalNode, BigInteger> {
+public interface LocalNodeRepository extends CrudRepository<LocalNode, BigInteger> {
 //    public void saveAll(List<LocalNode> localNodes);
 }

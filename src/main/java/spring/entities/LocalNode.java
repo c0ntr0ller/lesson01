@@ -1,21 +1,23 @@
 package spring.entities;
 
-import org.hibernate.annotations.Type;
 import org.openstreetmap.osm._0.Node;
 import org.openstreetmap.osm._0.Tag;
-import spring.NodeConverter;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "nodes", schema = "public")
-public class LocalNode {
+public class LocalNode implements Persistable<BigInteger> {
 //    @Convert(converter = NodeConverter.class)
 //    @Column(name = "tagsmap")
 //    private Map<String, String> tagsMap = new HashMap<>();
     @Id
+    @Column(nullable = false)
     private BigInteger id;
     private Double lat;
     private Double lon;
@@ -61,6 +63,11 @@ public class LocalNode {
 
     public BigInteger getId() {
         return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return null == getId();
     }
 
     public void setId(BigInteger id) {

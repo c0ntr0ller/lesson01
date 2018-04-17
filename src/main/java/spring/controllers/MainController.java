@@ -3,21 +3,15 @@ package spring.controllers;
 import org.openstreetmap.osm._0.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.orm.jpa.EntityManagerFactoryAccessor;
-import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Controller;
-import spring.ConfigClass;
 import spring.SpringMain;
 import spring.entities.LocalNode;
-import spring.repository.NodeRepository;
+import spring.repository.LocalNodeRepository;
 import xmlutils.XMLFileReader;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +28,7 @@ public class MainController {
     private String inFileName;
     @Bean
     @Transactional
-    public CommandLineRunner nodeProceed(NodeRepository nodeRepository) {
+    public CommandLineRunner nodeProceed(LocalNodeRepository localNodeRepository) {
         return (String... args) ->{
             // открываем файл с данными
             long totalCnt = 0;
@@ -57,7 +51,7 @@ public class MainController {
                     totalCnt = totalCnt + localNodeList.size();
 
                     // сохраняем их в БД
-                    nodeRepository.save(localNodeList);
+                    localNodeRepository.save(localNodeList);
 
                     localNodeList.clear();
 

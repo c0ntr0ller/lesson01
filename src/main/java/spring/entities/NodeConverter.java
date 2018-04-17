@@ -1,4 +1,4 @@
-package spring;
+package spring.entities;
 
 
 import org.postgresql.util.HStoreConverter;

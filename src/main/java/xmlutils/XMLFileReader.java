@@ -2,10 +2,7 @@ package xmlutils;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.openstreetmap.osm._0.Node;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import spring.ConfigClass;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
