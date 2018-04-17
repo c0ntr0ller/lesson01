@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class MainController {
+public class XmlImportController {
     private static Logger logger = LoggerFactory.getLogger(SpringMain.class);
 
 
@@ -33,8 +33,10 @@ public class MainController {
             // открываем файл с данными
             long totalCnt = 0;
 
-            LocalDateTime startDateTime = LocalDateTime.now();
+            logger.info("Clear data, wait ...");
+//            nodeRepository.deleteAllNodes();
 
+            LocalDateTime startDateTime = LocalDateTime.now();
             logger.info("Start ..." + startDateTime.toString());
 
             try(XMLFileReader xmlFileReader = new XMLFileReader(inFileName)) {
@@ -47,7 +49,7 @@ public class MainController {
 
                     List<LocalNode> localNodeList = nodeList.stream().map(LocalNode::new).collect(Collectors.toList());
 
-                    logger.info("Nodes read complete. Nodes readed:" + nodeList.size());
+//                    logger.info("Nodes read complete. Nodes readed:" + nodeList.size());
                     totalCnt = totalCnt + localNodeList.size();
 
                     // сохраняем их в БД
@@ -63,7 +65,7 @@ public class MainController {
                         diff = totalCnt / duration;
                     }
 
-                    logger.info(String.format("Avg. speed: %d records/sec", diff));
+                    logger.info(String.format("Records inserted: %d; Avg. speed: %d records/sec", totalCnt, diff));
                 }
             }
         };
