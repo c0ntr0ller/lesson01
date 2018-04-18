@@ -1,13 +1,15 @@
 package spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.openstreetmap.osm._0.Tag;
-
 import javax.persistence.*;
 import java.math.BigInteger;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name="tags", schema = "public")
 @Data
@@ -22,10 +24,10 @@ public class LocalTag {
     @Getter @Setter
     private LocalNode node;
 
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private String k;
 
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private String v;
 
     public LocalTag() {

@@ -1,5 +1,7 @@
 package spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,36 +17,38 @@ import java.util.*;
 //        @NamedNativeQuery(name = "LocalNode.deleteAllNodes",
 //                query = "DELETE FROM nodes")
 //})
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "nodes", schema = "public")
 @Data
 public class LocalNode implements  Persistable{
     @Id
-    @Setter @Getter
+    @Setter @Getter @JsonProperty
     private BigInteger id;
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private Double lat;
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private Double lon;
     @Column(name = "\"user\"")
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private String user;
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private BigInteger uid;
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private Boolean visible;
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private BigInteger version;
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private BigInteger changeset;
 
     @Column(name = "timestamp", columnDefinition = "timestamp WITHOUT time zone")
     @Temporal(TemporalType.TIMESTAMP)
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private Date timestamp;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "node", cascade = CascadeType.ALL)
-    @Getter @Setter
+    @Getter @Setter @JsonProperty
     private List<LocalTag> tagList = new ArrayList<>();
 
     @Convert(converter = NodeConverter.class)

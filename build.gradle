@@ -57,7 +57,7 @@ dependencies {
     compile group: 'com.github.the-alchemist', name: 'hibernate-postresql', version: '1.0.5'
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.12.RELEASE'
-
+    compile 'com.google.code.gson:gson:2.8.2'
 }
 
 jaxb {
