@@ -1,5 +1,6 @@
 package spring.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.openstreetmap.osm._0.Node;
@@ -16,7 +17,7 @@ import java.util.*;
 //})
 @Entity
 @Table(name = "nodes", schema = "public")
-//@TypeDef(name = "hstore", typeClass = HstoreType.class)
+@Data
 public class LocalNode implements  Persistable{
     @Id
     @Setter @Getter

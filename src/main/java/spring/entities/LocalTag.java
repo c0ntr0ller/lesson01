@@ -1,5 +1,6 @@
 package spring.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.openstreetmap.osm._0.Tag;
@@ -9,6 +10,7 @@ import java.math.BigInteger;
 
 @Entity
 @Table(name="tags", schema = "public")
+@Data
 public class LocalTag {
     @Id
     @Column(name = "id")
