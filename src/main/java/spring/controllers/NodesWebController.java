@@ -1,8 +1,8 @@
 package spring.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.repository.RestLocalNodeRepository;
 
@@ -18,25 +18,17 @@ public class NodesWebController {
     private ObjectMapper mapper;
 
     @RequestMapping(value = "/{nodeId}",method = RequestMethod.GET)
-    String getNode(@PathVariable BigInteger nodeId){
-        String result = null;
-        try {
-            result = mapper.writeValueAsString(restLocalNodeRepository.findOne(nodeId));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return result;
+    ResponseEntity<?> getNode(@PathVariable BigInteger nodeId){
+        return ResponseEntity.ok(restLocalNodeRepository.findOne(nodeId));
     }
 
     @RequestMapping(value = "/dist", method = RequestMethod.GET)
-    String getNodesInRange(@RequestParam("lat") Double lat, @RequestParam("lon") Double lon,
+    ResponseEntity<?> getNodesInRange(@RequestParam("lat") Double lat, @RequestParam("lon") Double lon,
                            @RequestParam("dist") Double dist, @RequestParam(name = "lim", defaultValue = "100") Integer lim){
-        String result = "";
-        try {
-            result = mapper.writeValueAsString(restLocalNodeRepository.findNodesInRange(lat, lon, dist, lim));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return result;
+        return ResponseEntity.ok(restLocalNodeRepository.findNodesInRange(lat, lon, dist, lim));
+    }
+
+    public void setRepo(RestLocalNodeRepository repo){
+        this.restLocalNodeRepository = repo;
     }
 }

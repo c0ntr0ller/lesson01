@@ -72,6 +72,10 @@ public class LocalNode implements  Persistable{
         }
     }
 
+    public LocalNode(BigInteger id) {
+        this.id = id;
+    }
+
     @Override
     public boolean isNew() {
         return true; //null == this.getId();
